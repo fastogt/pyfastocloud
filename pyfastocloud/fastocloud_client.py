@@ -31,9 +31,6 @@ class Fields:
     FEEDBACK_DIRECTORY = 'feedback_directory'
     TIMESHIFTS_DIRECTORY = 'timeshifts_directory'
     HLS_DIRECTORY = 'hls_directory'
-    PLAYLISTS_DIRECTORY = 'playlists_directory'
-    DVB_DIRECTORY = 'dvb_directory'
-    CAPTURE_CARD_DIRECTORY = 'capture_card_directory'
     VODS_IN_DIRECTORY = 'vods_in_directory'
     VODS_DIRECTORY = 'vods_directory'
     CODS_DIRECTORY = 'cods_directory'
@@ -74,15 +71,11 @@ class FastoCloudClient(Client):
 
     @Client.is_active_decorator
     def prepare_service(self, command_id: int, feedback_directory: str, timeshifts_directory: str, hls_directory: str,
-                        playlists_directory: str, dvb_directory: str, capture_card_directory: str,
                         vods_in_directory: str, vods_directory: str, cods_directory: str):
         command_args = {
             Fields.FEEDBACK_DIRECTORY: feedback_directory,
             Fields.TIMESHIFTS_DIRECTORY: timeshifts_directory,
             Fields.HLS_DIRECTORY: hls_directory,
-            Fields.PLAYLISTS_DIRECTORY: playlists_directory,
-            Fields.DVB_DIRECTORY: dvb_directory,
-            Fields.CAPTURE_CARD_DIRECTORY: capture_card_directory,
             Fields.VODS_IN_DIRECTORY: vods_in_directory,
             Fields.VODS_DIRECTORY: vods_directory,
             Fields.CODS_DIRECTORY: cods_directory
