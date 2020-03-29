@@ -7,7 +7,6 @@ class Commands:
     # service
     ACTIVATE_COMMAND = 'activate_request'
     PREPARE_SERVICE_COMMAND = 'prepare_service'
-    SYNC_SERVICE_COMMAND = 'sync_service'
     STOP_SERVICE_COMMAND = 'stop_service'
     SERVICE_PING_COMMAND = 'ping_service'
     STATISTIC_SERVICE_COMMAND = 'statistic_service'
@@ -20,6 +19,8 @@ class Fields:
     LICENSE_KEY = 'license_key'
     PATH = 'path'
     DELAY = 'delay'
+    CATCHUPS_HOST = 'catchups_host'
+    CATCHUPS_HTTP_ROOT = 'catchups_http_root'
 
 
 class FastoCloudLbClient(Client):
@@ -50,14 +51,9 @@ class FastoCloudLbClient(Client):
         return self._send_request(command_id, Commands.SERVICE_PING_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def prepare_service(self, command_id: int):
-        command_args = {}
+    def prepare_service(self, command_id: int, catchups_host: str, catchups_http_root: str):
+        command_args = {Fields.CATCHUPS_HOST: catchups_host, Fields.CATCHUPS_HTTP_ROOT: catchups_http_root}
         return self._send_request(command_id, Commands.PREPARE_SERVICE_COMMAND, command_args)
-
-    @Client.is_active_decorator
-    def sync_service(self, command_id: int) -> bool:
-        command_args = {}
-        return self._send_request(command_id, Commands.SYNC_SERVICE_COMMAND, command_args)
 
     @Client.is_active_decorator
     def stop_service(self, command_id: int, delay: int) -> bool:
