@@ -1,6 +1,6 @@
+from pyfastocloud.client import Client, make_utc_timestamp_msec
 from pyfastocloud.client_constants import ClientStatus
 from pyfastocloud.client_handler import IClientHandler
-from pyfastocloud.client import Client, make_utc_timestamp_msec
 
 
 class Commands:
@@ -13,6 +13,9 @@ class Commands:
     STATISTIC_SERVICE_COMMAND = 'statistic_service'
     CLIENT_PING_COMMAND = 'ping_client'  # ping from service
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
+    SUBSCRIBER_CONNECTED = 'subscriber_connected'
+    SUBSCRIBER_DISCONNECTED = 'subscriber_disconnected'
+    CATCHUP_CREATED = 'catchup_created'
 
 
 class Fields:
@@ -22,6 +25,8 @@ class Fields:
     DELAY = 'delay'
     CATCHUPS_HOST = 'catchups_host'
     CATCHUPS_HTTP_ROOT = 'catchups_http_root'
+    # prepare
+    ONLINE_CLIENTS = 'online_clients'
 
 
 class FastoCloudLbClient(Client):
