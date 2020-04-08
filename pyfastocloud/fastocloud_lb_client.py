@@ -12,10 +12,12 @@ class Commands:
     SERVICE_PING_COMMAND = 'ping_service'
     STATISTIC_SERVICE_COMMAND = 'statistic_service'
     CLIENT_PING_COMMAND = 'ping_client'  # ping from service
+    CLIENT_SEND_MESSAGE = 'send_message'
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
     SUBSCRIBER_CONNECTED = 'subscriber_connected'
     SUBSCRIBER_DISCONNECTED = 'subscriber_disconnected'
     CATCHUP_CREATED = 'catchup_created'
+    SEND_SUBSCRIBER_NOTIFY = 'send_message'
 
 
 class Fields:
@@ -25,6 +27,8 @@ class Fields:
     DELAY = 'delay'
     CATCHUPS_HOST = 'catchups_host'
     CATCHUPS_HTTP_ROOT = 'catchups_http_root'
+    USER_ID = 'id'
+    DEVICE_ID = 'device_id'
     # prepare
     ONLINE_CLIENTS = 'online_clients'
 
@@ -55,6 +59,12 @@ class FastoCloudLbClient(Client):
     def ping(self, command_id: int):
         command_args = {Fields.TIMESTAMP: make_utc_timestamp_msec()}
         return self._send_request(command_id, Commands.SERVICE_PING_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def send_subscriber_notify(self, command_id: int, uid: str, device: str, params: dict):
+        ser = {Fields.USER_ID: uid, Fields.DEVICE_ID: device}
+        command_args ={**ser, **params}
+        return self._send_request(command_id, Commands.SEND_SUBSCRIBER_NOTIFY, command_args)
 
     @Client.is_active_decorator
     def prepare_service(self, command_id: int, catchups_host: str, catchups_http_root: str):
