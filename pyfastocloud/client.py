@@ -1,14 +1,13 @@
+import json
 import socket
 import struct
-import json
-
 from abc import ABC, abstractmethod
-
 from datetime import datetime
+
 from pyfastocloud.client_constants import ClientStatus
 from pyfastocloud.client_handler import IClientHandler
-from pyfastocloud.json_rpc import Request, Response, parse_response_or_request, JSONRPC_OK_RESULT, JsonRPCErrorCode
 from pyfastocloud.compressor_zlib import CompressorZlib
+from pyfastocloud.json_rpc import Request, Response, parse_response_or_request, JSONRPC_OK_RESULT, JsonRPCErrorCode
 
 
 def make_utc_timestamp_seconds() -> int:

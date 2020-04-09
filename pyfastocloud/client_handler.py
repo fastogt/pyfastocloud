@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from pyfastocloud.json_rpc import Request, Response
 from pyfastocloud.client_constants import ClientStatus
+from pyfastocloud.json_rpc import Request, Response
 
 
 # handler for client

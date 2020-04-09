@@ -1,5 +1,5 @@
-import socket
 import select
+import socket
 import time
 
 Sleep = time.sleep

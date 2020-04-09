@@ -1,6 +1,6 @@
+from pyfastocloud.client import Client, make_utc_timestamp_msec
 from pyfastocloud.client_constants import ClientStatus
 from pyfastocloud.client_handler import IClientHandler
-from pyfastocloud.client import Client, make_utc_timestamp_msec
 
 
 class Commands:
