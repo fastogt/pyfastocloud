@@ -25,6 +25,8 @@ class Commands:
     CLIENT_PING_COMMAND = 'ping_client'  # ping from service
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
 
+    PROBE_STREAM_COMMAND = 'probe_stream'
+
 
 class Fields:
     TIMESTAMP = 'timestamp'
@@ -38,6 +40,7 @@ class Fields:
     STREAM_ID = 'id'
     LICENSE_KEY = 'license_key'
     PATH = 'path'
+    URL = 'url'
     CONFIG = 'config'
     DELAY = 'delay'
 
@@ -96,6 +99,11 @@ class FastoCloudClient(Client):
     def get_log_service(self, command_id: int, path: str) -> bool:
         command_args = {Fields.PATH: path}
         return self._send_request(command_id, Commands.GET_LOG_SERVICE_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def probe_stream(self, command_id: int, url: str) -> bool:
+        command_args = {Fields.URL: url}
+        return self._send_request(command_id, Commands.PROBE_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
     def start_stream(self, command_id: int, config: dict) -> bool:
