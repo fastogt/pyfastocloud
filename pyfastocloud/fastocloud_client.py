@@ -47,14 +47,22 @@ class Fields:
 class FastoCloudClient(Client):
     def __init__(self, host: str, port: int, handler: IClientHandler, socket_mod):
         super(FastoCloudClient, self).__init__(None, ClientStatus.INIT, handler, socket_mod)
-        self.host = host
-        self.port = port
+        self._host = host
+        self._port = port
+
+    @property
+    def host(self) -> str:
+        return self._host
+
+    @property
+    def port(self) -> int:
+        return self._port
 
     def connect(self) -> bool:
         if self.is_connected():
             return True
 
-        sock = self.create_tcp_connection(self.host, self.port)
+        sock = self.create_tcp_connection(self._host, self._port)
         if not sock:
             return False
 

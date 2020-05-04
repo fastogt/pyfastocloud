@@ -43,10 +43,10 @@ class Client(ABC):
     def is_active(self):
         return self._state == ClientStatus.ACTIVE
 
-    def is_active_decorator(func):
+    def is_active_decorator(func) -> RequestReturn:
         def closure(self, *args, **kwargs):
             if not self.is_active():
-                return
+                return False, None
             return func(self, *args, *kwargs)
 
         return closure
