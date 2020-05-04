@@ -34,6 +34,9 @@ def generate_json_rpc_response_error(message: str, code: int, command_id: str) -
     return Response(command_id, None, {'code': code, 'message': message})
 
 
+RequestReturn = (bool, str)
+
+
 class Client(ABC):
     MAX_PACKET_SIZE = 64 * 1024 * 1024
 
@@ -96,7 +99,7 @@ class Client(ABC):
         try:
             sock = self.create_tcp_socket()
             sock.connect((host, port))
-        except socket.error as exc:
+        except socket.error:
             return None
 
         return sock
@@ -120,9 +123,9 @@ class Client(ABC):
         if self._handler:
             self._handler.on_client_state_changed(self, status)
 
-    def _send_request(self, command_id, method: str, params) -> bool:
+    def _send_request(self, command_id, method: str, params) -> RequestReturn:
         if not self.is_connected():
-            return False
+            return False, None
 
         cid = generate_seq_id(command_id)
         req = Request(cid, method, params)
@@ -134,8 +137,8 @@ class Client(ABC):
         try:
             self._socket.send(data_to_send_bytes)
         except socket.error:
-            return False
-        return True
+            return False, None
+        return True, cid
 
     def _generate_data_to_send(self, data: str) -> bytes:
         compressed = self._gzip_compress.compress(data.encode())
@@ -143,7 +146,7 @@ class Client(ABC):
         array = struct.pack(">I", compressed_len)
         return array + compressed
 
-    def _send_notification(self, method: str, params) -> bool:
+    def _send_notification(self, method: str, params) -> RequestReturn:
         return self._send_request(None, method, params)
 
     def _send_response(self, command_id: str, params) -> bool:

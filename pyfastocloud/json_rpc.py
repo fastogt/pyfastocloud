@@ -26,10 +26,10 @@ class Request:
         return self.method
 
     def is_notification(self):
-        return not self.id
+        return self.id is None
 
     def to_dict(self) -> dict:
-        if self.id:
+        if not self.is_notification():
             return {
                 'method': self.method,
                 'params': self.params,
@@ -53,13 +53,13 @@ class Response:
         self.error = error
 
     def is_valid(self):
-        return self.id
+        return self.id is not None
 
     def is_error(self):
-        return self.error
+        return self.error is not None
 
     def is_message(self):
-        return self.result
+        return self.result is not None
 
     def to_dict(self) -> dict:
         if self.is_error():
@@ -83,7 +83,7 @@ class Response:
 def parse_response_or_request(data: str) -> (Request, Response):
     try:
         resp_req = json.loads(data)
-    except ValueError as e:
+    except ValueError:
         return None, None
 
     if 'method' in resp_req:

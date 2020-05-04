@@ -1,4 +1,4 @@
-from pyfastocloud.client import Client, make_utc_timestamp_msec
+from pyfastocloud.client import Client, make_utc_timestamp_msec, RequestReturn
 from pyfastocloud.client_constants import ClientStatus
 from pyfastocloud.client_handler import IClientHandler
 
@@ -51,38 +51,38 @@ class FastoCloudLbClient(Client):
         self._set_state(ClientStatus.CONNECTED)
         return True
 
-    def activate(self, command_id: int, license_key: str):
+    def activate(self, command_id: int, license_key: str) -> RequestReturn:
         command_args = {Fields.LICENSE_KEY: license_key}
         return self._send_request(command_id, Commands.ACTIVATE_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def ping(self, command_id: int):
+    def ping(self, command_id: int) -> RequestReturn:
         command_args = {Fields.TIMESTAMP: make_utc_timestamp_msec()}
         return self._send_request(command_id, Commands.SERVICE_PING_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def send_subscriber_notify(self, command_id: int, uid: str, device: str, params: dict):
+    def send_subscriber_notify(self, command_id: int, uid: str, device: str, params: dict) -> RequestReturn:
         ser = {Fields.USER_ID: uid, Fields.DEVICE_ID: device}
-        command_args ={**ser, **params}
+        command_args = {**ser, **params}
         return self._send_request(command_id, Commands.SEND_SUBSCRIBER_NOTIFY, command_args)
 
     @Client.is_active_decorator
-    def prepare_service(self, command_id: int, catchups_host: str, catchups_http_root: str):
+    def prepare_service(self, command_id: int, catchups_host: str, catchups_http_root: str) -> RequestReturn:
         command_args = {Fields.CATCHUPS_HOST: catchups_host, Fields.CATCHUPS_HTTP_ROOT: catchups_http_root}
         return self._send_request(command_id, Commands.PREPARE_SERVICE_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def sync_service(self, command_id: int) -> bool:
+    def sync_service(self, command_id: int) -> RequestReturn:
         command_args = {}
         return self._send_request(command_id, Commands.SYNC_SERVICE_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def stop_service(self, command_id: int, delay: int) -> bool:
+    def stop_service(self, command_id: int, delay: int) -> RequestReturn:
         command_args = {Fields.DELAY: delay}
         return self._send_request(command_id, Commands.STOP_SERVICE_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def get_log_service(self, command_id: int, path: str) -> bool:
+    def get_log_service(self, command_id: int, path: str) -> RequestReturn:
         command_args = {Fields.PATH: path}
         return self._send_request(command_id, Commands.GET_LOG_SERVICE_COMMAND, command_args)
 
