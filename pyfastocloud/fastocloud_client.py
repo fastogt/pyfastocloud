@@ -26,6 +26,7 @@ class Commands:
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
 
     PROBE_STREAM_COMMAND = 'probe_stream'
+    SCAN_FOLDER_COMMAND = 'scan_folder'
 
 
 class Fields:
@@ -42,6 +43,8 @@ class Fields:
     URL = 'url'
     CONFIG = 'config'
     DELAY = 'delay'
+    DIRECTORY = 'directory'
+    EXTENSIONS = 'extensions'
 
 
 class FastoCloudClient(Client):
@@ -110,6 +113,11 @@ class FastoCloudClient(Client):
     def probe_stream(self, command_id: int, url: str) -> RequestReturn:
         command_args = {Fields.URL: url}
         return self._send_request(command_id, Commands.PROBE_STREAM_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def scan_folder(self, command_id: int, directory: str, extensions: list) -> RequestReturn:
+        command_args = {Fields.DIRECTORY: directory, Fields.EXTENSIONS: extensions}
+        return self._send_request(command_id, Commands.SCAN_FOLDER_COMMAND, command_args)
 
     @Client.is_active_decorator
     def start_stream(self, command_id: int, config: dict) -> RequestReturn:
