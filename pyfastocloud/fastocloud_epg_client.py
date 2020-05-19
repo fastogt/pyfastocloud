@@ -22,9 +22,9 @@ class Fields:
     DELAY = 'delay'
 
 
-class FastoCloudLbClient(Client):
+class FastoCloudEpgClient(Client):
     def __init__(self, host: str, port: int, handler: IClientHandler, socket_mod):
-        super(FastoCloudLbClient, self).__init__(None, ClientStatus.INIT, handler, socket_mod)
+        super(FastoCloudEpgClient, self).__init__(None, ClientStatus.INIT, handler, socket_mod)
         self._host = host
         self._port = port
 
