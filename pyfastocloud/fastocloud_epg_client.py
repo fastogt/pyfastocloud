@@ -13,6 +13,7 @@ class Commands:
     STATISTIC_SERVICE_COMMAND = 'statistic_service'
     CLIENT_PING_COMMAND = 'ping_client'  # ping from service
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
+    REFRESH_URL_COMMAND = 'refresh_url'
 
 
 class Fields:
@@ -20,6 +21,7 @@ class Fields:
     LICENSE_KEY = 'license_key'
     PATH = 'path'
     DELAY = 'delay'
+    URL = 'url'
 
 
 class FastoCloudEpgClient(Client):
@@ -71,6 +73,11 @@ class FastoCloudEpgClient(Client):
     def stop_service(self, command_id: int, delay: int) -> RequestReturn:
         command_args = {Fields.DELAY: delay}
         return self._send_request(command_id, Commands.STOP_SERVICE_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def refresh_url(self, command_id: int, url: str) -> RequestReturn:
+        command_args = {Fields.URL: url}
+        return self._send_request(command_id, Commands.REFRESH_URL_COMMAND, command_args)
 
     @Client.is_active_decorator
     def get_log_service(self, command_id: int, path: str) -> RequestReturn:
