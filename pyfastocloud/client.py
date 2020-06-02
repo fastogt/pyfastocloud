@@ -34,7 +34,7 @@ def generate_json_rpc_response_error(message: str, code: int, command_id: str) -
     return Response(command_id, None, {'code': code, 'message': message})
 
 
-RequestReturn = (bool, str)
+
 
 
 class Client(ABC):
