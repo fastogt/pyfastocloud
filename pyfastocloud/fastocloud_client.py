@@ -37,6 +37,7 @@ class Fields:
     HLS_DIRECTORY = 'hls_directory'
     VODS_DIRECTORY = 'vods_directory'
     CODS_DIRECTORY = 'cods_directory'
+    PROXY_DIRECTORY = 'proxy_directory'
     STREAMS = 'streams'
     STREAM_ID = 'id'
     LICENSE_KEY = 'license_key'
@@ -86,13 +87,14 @@ class FastoCloudClient(Client):
 
     @Client.is_active_decorator
     def prepare_service(self, command_id: int, feedback_directory: str, timeshifts_directory: str, hls_directory: str,
-                        vods_directory: str, cods_directory: str) -> RequestReturn:
+                        vods_directory: str, cods_directory: str, proxy_directory: str) -> RequestReturn:
         command_args = {
             Fields.FEEDBACK_DIRECTORY: feedback_directory,
             Fields.TIMESHIFTS_DIRECTORY: timeshifts_directory,
             Fields.HLS_DIRECTORY: hls_directory,
             Fields.VODS_DIRECTORY: vods_directory,
-            Fields.CODS_DIRECTORY: cods_directory
+            Fields.CODS_DIRECTORY: cods_directory,
+            Fields.PROXY_DIRECTORY: proxy_directory
         }
         return self._send_request(command_id, Commands.PREPARE_SERVICE_COMMAND, command_args)
 
