@@ -34,20 +34,18 @@ def generate_json_rpc_response_error(message: str, code: int, command_id: str) -
     return Response(command_id, None, {'code': code, 'message': message})
 
 
-
-
-
 class Client(ABC):
     MAX_PACKET_SIZE = 64 * 1024 * 1024
 
     def is_active(self):
         return self._state == ClientStatus.ACTIVE
 
-    def is_active_decorator(func) -> RequestReturn:
+    @staticmethod
+    def is_active_decorator(function) -> RequestReturn:
         def closure(self, *args, **kwargs):
             if not self.is_active():
                 return False, None
-            return func(self, *args, *kwargs)
+            return function(self, *args, *kwargs)
 
         return closure
 
@@ -143,7 +141,7 @@ class Client(ABC):
     def _generate_data_to_send(self, data: str) -> bytes:
         compressed = self._gzip_compress.compress(data.encode())
         compressed_len = len(compressed)
-        array = struct.pack(">I", compressed_len)
+        array = struct.pack('>I', compressed_len)
         return array + compressed
 
     def _send_notification(self, method: str, params) -> RequestReturn:
