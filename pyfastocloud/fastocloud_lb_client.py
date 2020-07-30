@@ -17,6 +17,7 @@ class Commands:
     SUBSCRIBER_CONNECTED = 'subscriber_connected'
     SUBSCRIBER_DISCONNECTED = 'subscriber_disconnected'
     CATCHUP_CREATED = 'catchup_created'
+    CONTENT_REQUEST_CREATED = 'content_request_created'
     SEND_SUBSCRIBER_NOTIFY = 'send_message'
 
 
