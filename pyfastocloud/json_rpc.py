@@ -1,6 +1,14 @@
 import json
 
-JSONRPC_OK_RESULT = 'OK'
+JSON_RPC_OK_RESULT = 'OK'
+
+_METHOD_FIELD = 'method'
+_PARAMS_FIELD = 'params'
+_JSON_RPC_FIELD = 'jsonrpc'
+_JSON_RPC_VERSION_FIELD = '2.0'
+_ID_FIELD = 'id'
+_RESULT_FIELD = 'result'
+_ERROR_FIELD = 'error'
 
 
 class JsonRPCErrorCode:
@@ -31,15 +39,15 @@ class Request:
     def to_dict(self) -> dict:
         if not self.is_notification():
             return {
-                'method': self.method,
-                'params': self.params,
-                'jsonrpc': '2.0',
-                'id': self.id
+                _METHOD_FIELD: self.method,
+                _PARAMS_FIELD: self.params,
+                _JSON_RPC_FIELD: _JSON_RPC_VERSION_FIELD,
+                _ID_FIELD: self.id
             }
         return {
-            'method': self.method,
-            'params': self.params,
-            'jsonrpc': '2.0'
+            _METHOD_FIELD: self.method,
+            _PARAMS_FIELD: self.params,
+            _JSON_RPC_FIELD: _JSON_RPC_VERSION_FIELD
         }
 
 
@@ -64,16 +72,16 @@ class Response:
     def to_dict(self) -> dict:
         if self.is_error():
             return {
-                'error': self.error,
-                'jsonrpc': '2.0',
-                'id': self.id
+                _ERROR_FIELD: self.error,
+                _JSON_RPC_FIELD: _JSON_RPC_VERSION_FIELD,
+                _ID_FIELD: self.id
             }
 
         if self.is_message():
             return {
-                'result': self.result,
-                'jsonrpc': '2.0',
-                'id': self.id
+                _RESULT_FIELD: self.result,
+                _JSON_RPC_FIELD: _JSON_RPC_VERSION_FIELD,
+                _ID_FIELD: self.id
             }
 
         return dict()
@@ -86,21 +94,21 @@ def parse_response_or_request(data: str) -> (Request, Response):
     except ValueError:
         return None, None
 
-    if 'method' in resp_req:
+    if _METHOD_FIELD in resp_req:
         params = None
-        if 'params' in resp_req:
-            params = resp_req['params']
+        if _PARAMS_FIELD in resp_req:
+            params = resp_req[_PARAMS_FIELD]
 
         command_id = None
-        if 'id' in resp_req:
-            command_id = resp_req['id']
+        if _ID_FIELD in resp_req:
+            command_id = resp_req[_ID_FIELD]
 
-        return Request(command_id, resp_req['method'], params), None
+        return Request(command_id, resp_req[_METHOD_FIELD], params), None
 
-    if 'result' in resp_req:
-        return None, Response(resp_req['id'], resp_req['result'], None)
+    if _RESULT_FIELD in resp_req:
+        return None, Response(resp_req[_ID_FIELD], resp_req[_RESULT_FIELD], None)
 
-    if 'error' in resp_req:
-        return None, Response(resp_req['id'], None, resp_req['error'])
+    if _ERROR_FIELD in resp_req:
+        return None, Response(resp_req[_ID_FIELD], None, resp_req[_ERROR_FIELD])
 
     return None, None

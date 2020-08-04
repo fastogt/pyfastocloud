@@ -7,7 +7,7 @@ from datetime import datetime
 from pyfastocloud.client_constants import ClientStatus, RequestReturn
 from pyfastocloud.client_handler import IClientHandler
 from pyfastocloud.compressor_zlib import CompressorZlib
-from pyfastocloud.json_rpc import Request, Response, parse_response_or_request, JSONRPC_OK_RESULT, JsonRPCErrorCode
+from pyfastocloud.json_rpc import Request, Response, parse_response_or_request, JSON_RPC_OK_RESULT, JsonRPCErrorCode
 
 
 def make_utc_timestamp_seconds() -> int:
@@ -158,7 +158,7 @@ class Client(ABC):
         return True
 
     def _send_response_ok(self, command_id: str) -> bool:
-        return self._send_response(command_id, JSONRPC_OK_RESULT)
+        return self._send_response(command_id, JSON_RPC_OK_RESULT)
 
     def _send_response_fail(self, command_id: str, error: str) -> bool:
         resp = generate_json_rpc_response_error(error, JsonRPCErrorCode.JSON_RPC_SERVER_ERROR, command_id)
