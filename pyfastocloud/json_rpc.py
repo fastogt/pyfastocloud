@@ -34,7 +34,7 @@ class Request:
                 'method': self.method,
                 'params': self.params,
                 'jsonrpc': '2.0',
-                'id': self.id,
+                'id': self.id
             }
         return {
             'method': self.method,
@@ -66,14 +66,14 @@ class Response:
             return {
                 'error': self.error,
                 'jsonrpc': '2.0',
-                'id': self.id,
+                'id': self.id
             }
 
         if self.is_message():
             return {
                 'result': self.result,
                 'jsonrpc': '2.0',
-                'id': self.id,
+                'id': self.id
             }
 
         return dict()
