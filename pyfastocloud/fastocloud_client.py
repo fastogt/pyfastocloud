@@ -169,10 +169,11 @@ class FastoCloudClient(Client):
                 self._handler.process_request(self, req)
         elif resp:
             saved_req = self._request_queue.pop(resp.id, None)
-            if saved_req and saved_req.method == Commands.ACTIVATE_COMMAND and resp.is_message():
-                self._set_state(ClientStatus.ACTIVE)
-            elif saved_req and saved_req.method == Commands.STOP_SERVICE_COMMAND and resp.is_message():
-                self._reset()
+            if saved_req:
+                if saved_req.method == Commands.ACTIVATE_COMMAND and resp.is_message():
+                    self._set_state(ClientStatus.ACTIVE)
+                elif saved_req.method == Commands.STOP_SERVICE_COMMAND and resp.is_message():
+                    self._reset()
 
             if self._handler:
                 self._handler.process_response(self, saved_req, resp)
