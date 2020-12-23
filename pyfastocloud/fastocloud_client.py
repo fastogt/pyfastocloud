@@ -10,6 +10,7 @@ class Commands:
     RESTART_STREAM_COMMAND = 'restart_stream'
     GET_LOG_STREAM_COMMAND = 'get_log_stream'
     GET_PIPELINE_STREAM_COMMAND = 'get_pipeline_stream'
+    CHANGE_INPUT_STREAM_COMMAND = 'change_input_stream'
     CHANGED_STREAM_COMMAND = 'changed_source_stream'
     STATISTIC_STREAM_COMMAND = 'statistic_stream'
     ML_NOTIFICATION_STREAM_COMMAND = 'ml_notification_stream'
@@ -41,6 +42,7 @@ class Fields:
     DATA_DIRECTORY = 'data_directory'
     STREAMS = 'streams'
     STREAM_ID = 'id'
+    CHANNEL_ID = 'channel_id'
     LICENSE_KEY = 'license_key'
     PATH = 'path'
     URL = 'url'
@@ -145,6 +147,11 @@ class FastoCloudClient(Client):
     def restart_stream(self, command_id: int, stream_id: str) -> RequestReturn:
         command_args = {Fields.STREAM_ID: stream_id}
         return self._send_request(command_id, Commands.RESTART_STREAM_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def restart_stream(self, command_id: int, stream_id: str, channel_id: int) -> RequestReturn:
+        command_args = {Fields.STREAM_ID: stream_id, Fields.CHANNEL_ID: channel_id}
+        return self._send_request(command_id, Commands.CHANGE_INPUT_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
     def get_log_stream(self, command_id: int, stream_id: str, feedback_directory: str, path: str) -> RequestReturn:
