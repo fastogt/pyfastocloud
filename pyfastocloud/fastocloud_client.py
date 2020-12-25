@@ -149,7 +149,7 @@ class FastoCloudClient(Client):
         return self._send_request(command_id, Commands.RESTART_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def restart_stream(self, command_id: int, stream_id: str, channel_id: int) -> RequestReturn:
+    def change_input_source(self, command_id: int, stream_id: str, channel_id: int) -> RequestReturn:
         command_args = {Fields.STREAM_ID: stream_id, Fields.CHANNEL_ID: channel_id}
         return self._send_request(command_id, Commands.CHANGE_INPUT_STREAM_COMMAND, command_args)
 
