@@ -17,7 +17,7 @@ DESCRIPTION = 'FastoCloud python client files.'
 URL = 'https://github.com/fastogt/pyfastocloud'
 EMAIL = 'support@fastogt.com'
 AUTHOR = 'Alexandr Topilski'
-REQUIRES_PYTHON = '>=3.0.0'
+REQUIRES_PYTHON = '>=3.6'
 VERSION = '1.2.0'
 
 # What packages are required for this module to be executed?

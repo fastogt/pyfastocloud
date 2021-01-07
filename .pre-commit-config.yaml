@@ -4,6 +4,6 @@ repos:
     hooks:
       - id: pylint
         args:
-          - --max-line-length=80
+          - --max-line-length=120
           - --ignore-imports=yes
           - -d duplicate-code
