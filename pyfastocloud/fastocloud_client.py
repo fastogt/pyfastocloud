@@ -42,6 +42,7 @@ class Fields:
     DATA_DIRECTORY = 'data_directory'
     STREAMS = 'streams'
     STREAM_ID = 'id'
+    FORCE = 'force'
     CHANNEL_ID = 'channel_id'
     LICENSE_KEY = 'license_key'
     PATH = 'path'
@@ -139,8 +140,8 @@ class FastoCloudClient(Client):
         return self._send_request(command_id, Commands.START_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def stop_stream(self, command_id: int, stream_id: str) -> RequestReturn:
-        command_args = {Fields.STREAM_ID: stream_id}
+    def stop_stream(self, command_id: int, stream_id: str, force: bool) -> RequestReturn:
+        command_args = {Fields.STREAM_ID: stream_id, Fields.FORCE: force}
         return self._send_request(command_id, Commands.STOP_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
