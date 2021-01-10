@@ -35,13 +35,20 @@ def generate_json_rpc_response_error(message: str, code: int, command_id: str) -
 
 
 class Client(ABC):
+    """
+    Base client class for pyfastocloud connection
+    """
     MAX_PACKET_SIZE = 64 * 1024 * 1024
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return self._state == ClientStatus.ACTIVE
 
     @staticmethod
     def is_active_decorator(function) -> RequestReturn:
+        """
+        Decorator to check if client in active state (connected + license)
+        """
+
         def closure(self, *args, **kwargs):
             if not self.is_active():
                 return False, None
@@ -49,10 +56,11 @@ class Client(ABC):
 
         return closure
 
+    @property
     def status(self) -> ClientStatus:
         return self._state
 
-    def is_connected(self):
+    def is_connected(self) -> bool:
         return self._state != ClientStatus.INIT
 
     def disconnect(self):
@@ -61,6 +69,7 @@ class Client(ABC):
 
         self._reset()
 
+    @property
     def socket(self):
         return self._socket
 
@@ -106,7 +115,7 @@ class Client(ABC):
     def __init__(self, sock, state: ClientStatus, handler: IClientHandler, socket_mod):
         self._handler = handler
         self._socket = sock
-        self._request_queue = dict()
+        self._request_queue = {}
         self._state = state
         self._gzip_compress = CompressorZlib(True)
         self._socket_mod = socket_mod

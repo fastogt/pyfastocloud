@@ -84,7 +84,7 @@ class Response:
                 _ID_FIELD: self.id
             }
 
-        return dict()
+        return {}
 
 
 # rpc functions
