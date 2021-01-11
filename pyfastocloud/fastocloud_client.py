@@ -26,7 +26,8 @@ class Commands:
     CLIENT_PING_COMMAND = 'ping_client'  # ping from service
     GET_LOG_SERVICE_COMMAND = 'get_log_service'
 
-    PROBE_STREAM_COMMAND = 'probe_stream'
+    PROBE_IN_STREAM_COMMAND = 'probe_in_stream'
+    PROBE_OUT_STREAM_COMMAND = 'probe_out_stream'
     SCAN_FOLDER_COMMAND = 'scan_folder'
     SCAN_FOLDER_VODS_COMMAND = 'scan_folder_vods'
 
@@ -120,9 +121,14 @@ class FastoCloudClient(Client):
         return self._send_request(command_id, Commands.GET_LOG_SERVICE_COMMAND, command_args)
 
     @Client.is_active_decorator
-    def probe_stream(self, command_id: int, url: str) -> RequestReturn:
+    def probe_in_stream(self, command_id: int, url: dict) -> RequestReturn:
         command_args = {Fields.URL: url}
-        return self._send_request(command_id, Commands.PROBE_STREAM_COMMAND, command_args)
+        return self._send_request(command_id, Commands.PROBE_IN_STREAM_COMMAND, command_args)
+
+    @Client.is_active_decorator
+    def probe_out_stream(self, command_id: int, url: dict) -> RequestReturn:
+        command_args = {Fields.URL: url}
+        return self._send_request(command_id, Commands.PROBE_OUT_STREAM_COMMAND, command_args)
 
     @Client.is_active_decorator
     def scan_folder(self, command_id: int, directory: str, extensions: list) -> RequestReturn:
