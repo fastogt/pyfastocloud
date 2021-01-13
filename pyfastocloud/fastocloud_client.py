@@ -14,6 +14,7 @@ class Commands:
     CHANGED_STREAM_COMMAND = 'changed_source_stream'
     STATISTIC_STREAM_COMMAND = 'statistic_stream'
     ML_NOTIFICATION_STREAM_COMMAND = 'ml_notification_stream'
+    RESULT_STREAM_COMMAND = 'result_stream'
     QUIT_STATUS_STREAM_COMMAND = 'quit_status_stream'
 
     # service
