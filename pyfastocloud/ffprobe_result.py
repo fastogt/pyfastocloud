@@ -4,6 +4,9 @@ class FFprobeResult:
     def __init__(self):
         self._payload = {}
 
+    def __str__(self):
+        return str(self._payload)
+
     @classmethod
     def make_entry(cls, json: dict):
         cl = cls()
