@@ -4,7 +4,7 @@ from pyfastocloud.client_handler import IClientHandler
 
 
 class Commands:
-    # stream
+    # streamp
     START_STREAM_COMMAND = 'start_stream'
     STOP_STREAM_COMMAND = 'stop_stream'
     RESTART_STREAM_COMMAND = 'restart_stream'
