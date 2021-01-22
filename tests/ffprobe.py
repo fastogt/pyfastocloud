@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import unittest
 
-from pyfastocloud.ffprobe_result import FFprobeResult
+from pyfastocloud.structs.ffprobe_result import FFprobeResult
 
 
 class FFprobeTest(unittest.TestCase):
